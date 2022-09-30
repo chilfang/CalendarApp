@@ -114,7 +114,6 @@ namespace CapstoneProjectQ1.UserControls {
         }
 
         private void SetNote(DateTime originalNoteDate) {
-
             using (SqliteConnection connection = new SqliteConnection("Data Source=" + path)) {
                 connection.Open();
 
@@ -137,6 +136,8 @@ namespace CapstoneProjectQ1.UserControls {
                         descriptionText = reader.GetString(2);
                         creationDate = reader.GetString(3);
                     }
+
+                    noteDisplayButton.Text = titleText;
 
 
                     command.CommandText = @"
