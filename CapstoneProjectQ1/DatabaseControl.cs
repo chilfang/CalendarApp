@@ -1,10 +1,10 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
 
 namespace CapstoneProjectQ1 {
     class DatabaseControl {
@@ -59,13 +59,14 @@ namespace CapstoneProjectQ1 {
                             command.Parameters.AddWithValue("$otherMonthColor$", Color.Gray.Name);
                             command.Parameters.AddWithValue("$borderColor$", Color.Black.Name);
                             command.Parameters.AddWithValue("$noteColor$", Color.Red.Name);
-                                
+
 
                             command.ExecuteNonQuery();
                         }
                     }
+                } else if (File.GetLastWriteTime(Path) < new DateTime(2022, 10, 12)) {
+                    MessageBox.Show("The database might not be right. If the program doesn't work delete the .db file at (" + System.IO.Path.GetFullPath(Path) + ").", "WARNING");
                 }
-
             }
         }
     }
