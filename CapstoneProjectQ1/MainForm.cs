@@ -20,9 +20,10 @@ namespace CapstoneProjectQ1 {
             navigationControl = new NavigationControl(this);
 
             navigationControl.Calendar = new Calendar(navigationControl);
-            navigationControl.Personalize = new Personalize(navigationControl);
             navigationControl.Schedule = new Schedule();
             navigationControl.Options = new Options(navigationControl);
+
+            navigationControl.Personalize = new Personalize(navigationControl);
 
             navigationControl.SetupUserControls(userControlsPanel);
         }
@@ -32,8 +33,8 @@ namespace CapstoneProjectQ1 {
         }
 
 
-        // Control Panel
-        public void ChangeNavigationPanelColor(Color color) {
+        // color changes
+        public void ChangeBackgroundColor(Color color) {
             NavigationPanel.BackColor = color;
 
             foreach (UserControl userControl in navigationControl.UserControls) {
@@ -41,7 +42,7 @@ namespace CapstoneProjectQ1 {
             }
         }
 
-        public void ChangeNavigationPanelButtonColor(Color color) {
+        public void ChangeButtonColor(Color color) {
             foreach (Control control in NavigationPanel.Controls) {
                 if (control.GetType() == typeof(Button)) {
                     control.BackColor = color;
@@ -50,6 +51,7 @@ namespace CapstoneProjectQ1 {
 
             foreach (UserControl userControl in navigationControl.UserControls) {
                 foreach (Button button in (from Control control in userControl.Controls where control.GetType() == typeof(Button) select control).ToArray()) {
+                    if (Convert.ToString(button.Tag).Contains("NoColorChange")) continue;
                     button.BackColor = color;
                 }
             }

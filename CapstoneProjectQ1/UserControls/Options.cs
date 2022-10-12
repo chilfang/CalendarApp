@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
 
 namespace CapstoneProjectQ1 {
     public partial class Options : UserControl {
@@ -28,7 +28,7 @@ namespace CapstoneProjectQ1 {
                     }
                 }
 
-                
+
                 MessageBox.Show(text: "The imported calendar will be used the next time the program loads.", caption: "Understood");
                 try { File.Delete(DatabaseControl.Path + "NEW"); }
                 finally { File.Copy(openFileDialog1.FileName, DatabaseControl.Path + "NEW"); }

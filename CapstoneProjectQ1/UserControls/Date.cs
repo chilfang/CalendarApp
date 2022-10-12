@@ -52,7 +52,10 @@ namespace CapstoneProjectQ1.UserControls {
         }
 
         private void CreateNote() {
-            Note note = new Note(dateTime);
+            Note note = new Note(dateTime) {
+                Owner = ParentForm
+            };
+
             note.FormClosed += NoteClosed;
 
             note.Show();
@@ -76,6 +79,7 @@ namespace CapstoneProjectQ1.UserControls {
 
             if (dragDropResult == DragDropEffects.Copy) {
                 noteDisplayButton.Visible = false;
+                noteDisplayButton.Text = "";
 
                 using (SqliteConnection connection = new SqliteConnection("Data Source=" + path)) {
                     connection.Open();
@@ -138,7 +142,6 @@ namespace CapstoneProjectQ1.UserControls {
                     }
 
                     noteDisplayButton.Text = titleText;
-
 
                     command.CommandText = @"
                         SELECT date, title, description, creationDate
