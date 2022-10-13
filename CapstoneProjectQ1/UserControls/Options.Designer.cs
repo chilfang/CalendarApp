@@ -28,6 +28,7 @@ namespace CapstoneProjectQ1 {
             this.ImportCalendarButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.PathLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ExportCalendarButton
@@ -68,11 +69,21 @@ namespace CapstoneProjectQ1 {
             this.saveFileDialog1.Filter = "Database Files (*.db)|*.db";
             this.saveFileDialog1.Title = "Export";
             // 
+            // PathLabel
+            // 
+            this.PathLabel.AutoSize = true;
+            this.PathLabel.Location = new System.Drawing.Point(109, 33);
+            this.PathLabel.Name = "PathLabel";
+            this.PathLabel.Size = new System.Drawing.Size(31, 15);
+            this.PathLabel.TabIndex = 10;
+            this.PathLabel.Text = "Path";
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.Controls.Add(this.PathLabel);
             this.Controls.Add(this.ImportCalendarButton);
             this.Controls.Add(this.ExportCalendarButton);
             this.Name = "Options";
@@ -88,5 +99,6 @@ namespace CapstoneProjectQ1 {
         private System.Windows.Forms.Button ImportCalendarButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Label PathLabel;
     }
 }

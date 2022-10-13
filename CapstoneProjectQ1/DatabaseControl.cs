@@ -12,9 +12,9 @@ namespace CapstoneProjectQ1 {
 
         public static void CheckPath() {
             if (!File.Exists(Path)) {
-                Path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"/../Local/CapstoneCalendarApp";
+                Path = System.IO.Path.GetFullPath(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\..\Local\CapstoneCalendarApp");
                 Directory.CreateDirectory(Path);
-                Path += @"/database.db";
+                Path += @"\database.db";
 
                 if (File.Exists(Path + "NEW")) {
                     try {
@@ -65,7 +65,7 @@ namespace CapstoneProjectQ1 {
                         }
                     }
                 } else if (File.GetLastWriteTime(Path) < new DateTime(2022, 10, 12)) {
-                    MessageBox.Show("The database might not be right. If the program doesn't work delete the .db file at (" + System.IO.Path.GetFullPath(Path) + ").", "WARNING");
+                    MessageBox.Show("The database might not be right. If the program doesn't work delete the .db file at (" + Path + ").", "WARNING");
                 }
             }
         }

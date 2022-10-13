@@ -13,8 +13,9 @@ namespace CapstoneProjectQ1 {
         public Options(NavigationControl navigationControl) {
             InitializeComponent();
             this.navigationControl = navigationControl;
-            openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"/../Local/CapstoneCalendarApp";
-            saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"/../Local/CapstoneCalendarApp";
+            PathLabel.Text = DatabaseControl.Path;
+            openFileDialog1.InitialDirectory = PathLabel.Text;
+            saveFileDialog1.InitialDirectory = PathLabel.Text;
         }
 
         private void ImportCalendarButton_Click(object sender, EventArgs e) {
