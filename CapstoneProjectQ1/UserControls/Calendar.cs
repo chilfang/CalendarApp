@@ -1,10 +1,6 @@
 ﻿using CapstoneProjectQ1.UserControls;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace CapstoneProjectQ1 {
@@ -40,14 +36,12 @@ namespace CapstoneProjectQ1 {
         }
 
         private void LoadMonth(int offset = 0) {
-            if (offset != 0) {
-                currentDate = currentDate.AddMonths(offset);
-            }
+            if (offset != 0) currentDate = currentDate.AddMonths(offset);
 
             //Sets label to current month
             CurrentMonthLabel.Text = currentDate.ToString("MMMM yyyy");
 
-            //Gets the differente date types to display
+            //Gets the different date types to display
             leadingDays = ((int) new DateTime(currentDate.Year, currentDate.Month, 1).DayOfWeek);
             monthDays = DateTime.DaysInMonth(currentDate.Year, currentDate.Month);
             trailingDays = (columns * rows) - monthDays - leadingDays;
@@ -55,8 +49,6 @@ namespace CapstoneProjectQ1 {
             while (leadingDays + monthDays + trailingDays < 42) { trailingDays++; }
 
             dates = new Date[42];
-
-            //MessageBox.Show($"{leadingDays} {monthDays} {trailingDays}");
 
             //Displays date
             int[] displayDates = new int[42];
@@ -96,7 +88,7 @@ namespace CapstoneProjectQ1 {
 
                         dates[x + (columns * y)] = dateControl;
 
-                    } else { //Current Month
+                    } else { // Current Month
                         Date dateControl = new Date(new DateTime(currentDate.Year, currentDate.Month, displayDates[(x + (columns * y))])) {
                             Location = new Point(x * boxWidth + 6, (y * boxHeight) + 23 + boxHeight),
                             Parent = this,
@@ -122,18 +114,7 @@ namespace CapstoneProjectQ1 {
                         for (int y = 0; y < rows; y++) {
                             Rectangle rect = new Rectangle(x * boxWidth + 3, Height - (y * boxHeight) - boxHeight - 3, boxWidth, boxHeight);
 
-                            /* old boxes
-                            if (x + (columns * y) <= leadingDays) {
-                                graphics.FillRectangle(inactiveDay, rect);
-                            } else if (x + (columns * y) <= leadingDays + monthDays) {
-                                graphics.FillRectangle(activeDay, rect);
-                            } else {
-                                graphics.FillRectangle(inactiveDay, rect);
-                            }
-                            */
-
                             graphics.DrawRectangle(penBorder, rect);
-
                         }
                     }
                 }
@@ -166,7 +147,7 @@ namespace CapstoneProjectQ1 {
         }
 
         public void ChangeCalendarColors(Color activeDay = default(Color), Color inactiveDay = default(Color), Color border = default(Color), Color note = default(Color)) {
-            if (activeDay != default(Color)) {
+            if (activeDay != default(Color)) { // change current month color
                 this.activeDay = new SolidBrush(activeDay);
                 foreach (Date date in dates) {
                     if (date.active) {
@@ -175,7 +156,7 @@ namespace CapstoneProjectQ1 {
                 }
             }
 
-            if (inactiveDay != default(Color)) {
+            if (inactiveDay != default(Color)) { // change other month color
                 this.inactiveDay = new SolidBrush(inactiveDay);
                 foreach (Date date in dates) {
                     if (!date.active) {
@@ -184,9 +165,9 @@ namespace CapstoneProjectQ1 {
                 }
             }
 
-            if (border != default(Color)) { this.border = new SolidBrush(border); }
+            if (border != default(Color)) { this.border = new SolidBrush(border); } // change border color
 
-            if (note != default(Color)) {
+            if (note != default(Color)) { // change note color
                 foreach (Date date in dates) {
                     date.noteDisplayButton.BackColor = note;
                 }
@@ -203,7 +184,7 @@ namespace CapstoneProjectQ1 {
             LoadMonth(-1);
         }
 
-        private void ClearMonth() {
+        private void ClearMonth() { // clears the dates from the Calendar in preperation of loading a different month
             foreach (Date date in dates) {
                 date.Dispose();
             }

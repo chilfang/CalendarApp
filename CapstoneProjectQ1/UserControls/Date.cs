@@ -1,12 +1,6 @@
 ﻿using CapstoneProjectQ1.SubForms;
 using Microsoft.Data.Sqlite;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 namespace CapstoneProjectQ1.UserControls {
@@ -23,11 +17,12 @@ namespace CapstoneProjectQ1.UserControls {
 
             dateLabel.Text = dateTime.Day.ToString();
 
+            // if a record is found for the date that is being displayed is found, show the note button with the title
             using (SqliteConnection connection = new SqliteConnection("Data Source=" + path)) {
                 connection.Open();
                 using (SqliteCommand command = connection.CreateCommand()) {
                     command.CommandText = @"
-                        SELECT date, title, description, creationDate
+                        SELECT title
                         FROM notes
                         WHERE date = $date$
                     ";
@@ -37,13 +32,14 @@ namespace CapstoneProjectQ1.UserControls {
                     using (SqliteDataReader reader = command.ExecuteReader()) {
                         if (reader.Read()) {
                             noteDisplayButton.Visible = true;
-                            noteDisplayButton.Text = reader.GetString(1);
+                            noteDisplayButton.Text = reader.GetString(0);
                         }
                     }
                 }
             }
         }
 
+        //run CreateNote() if the date is clicked
         private void Date_Click(object sender, EventArgs e) {
             CreateNote();
         }
@@ -51,12 +47,13 @@ namespace CapstoneProjectQ1.UserControls {
             CreateNote();
         }
 
+        //Creates a note form at the mouse's current position. Sets the owner to the main form to keep the note displayed above it.
         private void CreateNote() {
             Note note = new Note(dateTime) {
                 Owner = ParentForm
             };
 
-            note.FormClosed += NoteClosed;
+            note.FormClosed += NoteClosed; // run NoteClosed() if the note form gets closed
 
             note.Show();
 
@@ -65,6 +62,7 @@ namespace CapstoneProjectQ1.UserControls {
             noteDisplayButton.Visible = true;
         }
 
+        //Sets the note button's text to the relevant note's title
         private void NoteClosed(Object sender, FormClosedEventArgs e) {
             if (((Note) sender).IsNoteEmpty()) {
                 noteDisplayButton.Visible = false;
@@ -73,14 +71,16 @@ namespace CapstoneProjectQ1.UserControls {
             }
         }
 
-
+        // runs a Drag Drop on the note button
         private void noteDisplayButton_MouseDown(object sender, MouseEventArgs e) {
             DragDropEffects dragDropResult = DoDragDrop(dateTime, DragDropEffects.Copy | DragDropEffects.Move);
 
-            if (dragDropResult == DragDropEffects.Copy) {
+            if (dragDropResult == DragDropEffects.Copy) { // if note button is sucessfully moved
+                // reset note butotn
                 noteDisplayButton.Visible = false;
                 noteDisplayButton.Text = "";
 
+                // delete the record for current date
                 using (SqliteConnection connection = new SqliteConnection("Data Source=" + path)) {
                     connection.Open();
                     using (SqliteCommand command = connection.CreateCommand()) {
@@ -94,7 +94,7 @@ namespace CapstoneProjectQ1.UserControls {
                         command.ExecuteNonQuery();
                     }
                 }
-            } else {
+            } else { // if not sucessfully moved, open the note
                 CreateNote();
             }
         }
@@ -105,7 +105,8 @@ namespace CapstoneProjectQ1.UserControls {
                 e.Effect = DragDropEffects.None;
         }
 
-        private void Date_DragDrop(object sender, DragEventArgs e) {
+        private void Date_DragDrop(object sender, DragEventArgs e) { // on sucessful dragdrop
+            // overwrite record if there is already something for the date
             if (noteDisplayButton.Visible) {
                 DialogResult confirmResults = MessageBox.Show("Do you want to overwrite this note?", "Confirm overwrite.", MessageBoxButtons.YesNo);
                 if (confirmResults == DialogResult.Yes) {
@@ -120,8 +121,9 @@ namespace CapstoneProjectQ1.UserControls {
         private void SetNote(DateTime originalNoteDate) {
             using (SqliteConnection connection = new SqliteConnection("Data Source=" + path)) {
                 connection.Open();
-
+                
                 using (SqliteCommand command = connection.CreateCommand()) {
+                    // get info from original date
                     command.CommandText = @"
                         SELECT date, title, description, creationDate
                         FROM notes
@@ -141,6 +143,7 @@ namespace CapstoneProjectQ1.UserControls {
                         creationDate = reader.GetString(3);
                     }
 
+                    // set info to new date
                     noteDisplayButton.Text = titleText;
 
                     command.CommandText = @"

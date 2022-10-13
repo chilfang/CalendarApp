@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CapstoneProjectQ1 {
@@ -17,19 +13,20 @@ namespace CapstoneProjectQ1 {
         }
 
         private void InitializeNavigationControl() {
+            // TODO - change this to use the same logic as DatabaseControl
             navigationControl = new NavigationControl(this);
 
             navigationControl.Calendar = new Calendar(navigationControl);
             navigationControl.Schedule = new Schedule();
             navigationControl.Options = new Options(navigationControl);
 
-            navigationControl.Personalize = new Personalize(navigationControl);
+            navigationControl.Personalize = new Personalize(navigationControl); //should always be created last (unknown if needed but is assumed so)
 
             navigationControl.SetupUserControls(userControlsPanel);
         }
 
         private void Form1_Load(object sender, EventArgs e) {
-            navigationControl.Calendar.BringToFront();
+            navigationControl.Calendar.BringToFront(); //make sure the Calendar is the first user control seen
         }
 
 
@@ -57,28 +54,19 @@ namespace CapstoneProjectQ1 {
             }
         }
 
+
+        // Navigation between user controls
         private void CalendarButton_Click(object sender, EventArgs e) {
             navigationControl.Calendar.BringToFront();
         }
-
         private void PersonalizeButton_Click(object sender, EventArgs e) {
             navigationControl.Personalize.BringToFront();
         }
-
         private void ScheduleButton_Click(object sender, EventArgs e) {
             navigationControl.Schedule.BringToFront();
         }
         private void OptionsButton_Click(object sender, EventArgs e) {
             navigationControl.Options.BringToFront();
         }
-
-        /*
-        private void HideAllForms() {
-            calendar1.Hide();
-            list1.Hide();
-            personalize1.Hide();
-            options1.Hide();
-        }
-        */
     }
 }
